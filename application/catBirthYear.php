@@ -1,8 +1,8 @@
 <?php
 try {
-require('../pdo_connect.php');
-$sql = 'SELECT A.CatName AS CatNameA, B.CatName AS CatNameB, A.CatBirthYear FROM Cat A JOIN Cat B WHERE A.CatBirthYear = B.CatBirthYear AND A.CatID < B.CatID ORDER BY A.CatBirthYear';
-$result = $dbc->query($sql);
+	require('../pdo_connect.php');
+	$sql = 'SELECT A.CatName AS CatNameA, B.CatName AS CatNameB, A.CatBirthYear FROM Cat A JOIN Cat B WHERE A.CatBirthYear = B.CatBirthYear AND A.CatID < B.CatID ORDER BY A.CatBirthYear';
+	$result = $dbc->query($sql);
 } catch (PDOException $e){
 echo $e->getMessage();
 }

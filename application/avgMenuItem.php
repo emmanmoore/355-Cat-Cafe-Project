@@ -4,7 +4,7 @@
 		$store = $_GET["store"];
 		try{
 			require_once('../pdo_connect.php'); 
-			$sql = 'SELECT EmpFN, EmpLN, EmpID, Role FROM Store NATURAL JOIN Employee NATURAL JOIN EmpRole WHERE StoreID = ?';
+			$sql = 'SELECT AVG(Price) AS AvgItemPrice FROM Store NATURAL JOIN Has NATURAL JOIN Menu_Item WHERE StoreID = ?';
 			$stmt = $dbc->prepare($sql);
 			$stmt->bindParam(1, $store);
 			$stmt->execute();
@@ -20,31 +20,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Employee Info Page</title>
+    <title>Average Menu Item Cost</title>
 	<meta charset ="utf-8">
 	<style>
 	table, th, td { border: 1px solid black; }
 	table td { padding:5px; }
-	tr:nth-child(even) { background-color: #D6EEEE; }
-
 	</style>	
 </head>
 <body>
-	<h2> Employees at this store: </h2>
-	
+	<h2> Average Menu Item Cost </h2>
 	<table>
 		<tr>
-			<th>Employee First Name</th>
-			<th>Employee Last Name</th>
-			<th>Employee ID</th>
-			<th>Employee Role</th>
+			<th>Price</th>
 		</tr>
 	<?php foreach($result as $emp) {
 		echo "<tr>";
-		echo "<td>".$emp['EmpFN']."</td>";
-		echo "<td>".$emp['EmpLN']."</td>";
-		echo "<td>".$emp['EmpID']."</td>";
-		echo "<td>".$emp['Role']."</td>";
+		echo "<td>$".round($emp['AvgItemPrice'],2)."</td>";
 		echo "</tr>";
 	}?> 
 	</table>
