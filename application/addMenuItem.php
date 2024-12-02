@@ -82,7 +82,7 @@ FOR EACH ROW
 BEGIN
     -- Insert into Has table using the StoreID and ItemID
     INSERT INTO Has (StoreID, ItemID) 
-    VALUES (NEW.StoreID, NEW.ItemID); -- Detected from recent addition
+    VALUES ($store, NEW.ItemID); -- Detected from recent addition
 END $$
 
 DELIMITER ;
