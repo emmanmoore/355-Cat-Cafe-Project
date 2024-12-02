@@ -5,7 +5,7 @@
         $store = $_GET["store"];
         try {
             require('../pdo_connect.php');
-            //SQL statement to remove a cat using placeholders
+            //SQL statement to remove a cat
             $sql = 'DELETE FROM Cat WHERE CatID = :CatID and StoreID = :StoreID';
 
             $stmt = $dbc->prepare($sql);
