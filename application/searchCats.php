@@ -8,7 +8,7 @@ if (isset($_GET['store'])) {
         
         // SQL statement to search for a cat in a specific store with a name matching the user input
         $sql = 'SELECT * 
-                FROM Cats c
+                FROM Cat c
                 JOIN Store s ON c.StoreID = s.StoreID
                 WHERE c.Name LIKE :Name AND c.StoreID = :StoreID';
 
