@@ -8,8 +8,8 @@ if (isset($_GET['store'])) {
         
         // SQL query to count the number of male and female cats for a specific store, grouped by gender
         $sql = 'SELECT Gender, COUNT(*) AS CatCount
-                FROM Cats
-                JOIN Store ON Cats.StoreID = Store.StoreID
+                FROM Cat
+                JOIN Store ON Cat.StoreID = Store.StoreID
                 WHERE Store.StoreID = ?
                 GROUP BY Gender
                 HAVING COUNT(*) > 0
@@ -35,8 +35,8 @@ if (isset($_GET['store'])) {
         }
 
         // Fetch the details of all cats for the store (for display in tables)
-        $sql2 = 'SELECT * FROM Cats
-                 JOIN Store ON Cats.StoreID = Store.StoreID
+        $sql2 = 'SELECT * FROM Cat
+                 JOIN Store ON Cat.StoreID = Store.StoreID
                  WHERE Store.StoreID = ?
                  ORDER BY CatBirthYear DESC';  // Sorting cats from youngest to oldest
         $stmt2 = $dbc->prepare($sql2);
