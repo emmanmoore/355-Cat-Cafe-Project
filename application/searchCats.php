@@ -1,28 +1,35 @@
-<!-- This is a query to view all cats associated with a specific store -->
 <?php
 ini_set('display_errors', 1);
+
+// Check if the store is passed in the URL
 if (isset($_GET['store'])) { 
     $store = $_GET["store"];
-    try {
-        require_once('../pdo_connect.php'); 
-        
-        // SQL statement to search for a cat in a specific store with a name matching the user input
-        $sql = 'SELECT * 
-                FROM Cat c
-                JOIN Store s ON c.StoreID = s.StoreID
-                WHERE c.Name LIKE :Name AND c.StoreID = :StoreID';
+    $result = [];  // Initialize result variable
+    
+    // Check if the form is submitted
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['CatName'])) {
+        $catName = $_POST['CatName'];
+        try {
+            require_once('../pdo_connect.php'); 
+            
+            // SQL statement to search for a cat in a specific store with a name matching the user input
+            $sql = 'SELECT * 
+                    FROM Cat c
+                    JOIN Store s ON c.StoreID = s.StoreID
+                    WHERE c.CatName LIKE :CatName AND c.StoreID = :StoreID';
 
-        $stmt = $dbc->prepare($sql);
-        
-        // Connects user input to placeholders in SQL statement
-        $stmt->execute([
-            ':Name' => '%' . $_POST['Name'] . '%',
-            ':StoreID' => $store
-        ]);
-        
-        $result = $stmt->fetchAll();
-    } catch (PDOException $e) {
-        echo $e->getMessage();
+            $stmt = $dbc->prepare($sql);
+            
+            // Connect user input to placeholders in SQL statement
+            $stmt->execute([
+                ':CatName' => '%' . $catName . '%',
+                ':StoreID' => $store
+            ]);
+            
+            $result = $stmt->fetchAll();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 } else {
     echo "<h2>You have reached this page in error</h2>";
@@ -43,9 +50,9 @@ if (isset($_GET['store'])) {
 <body>
     <h2>Search for a Cat:</h2>
     
-    <form action="searchCats.php" method="POST">
-        <label for="Name">Enter a name:</label>
-        <input type="text" id="Name" name="Name" placeholder="Name" required><br><br>
+    <form action="searchCats.php?store=<?= htmlspecialchars($store); ?>" method="POST">
+        <label for="CatName">Enter a name:</label>
+        <input type="text" id="CatName" name="CatName" placeholder="Cat Name" required><br><br>
 
         <button type="submit">Search</button>
     </form>
@@ -59,7 +66,6 @@ if (isset($_GET['store'])) {
             <th>Birth Year</th>
             <th>Agency ID</th>
             <th>Store ID</th>
-            <th>Store Name</th>
             <th>Store Phone</th>
             <th>Store Address</th>
         </tr>
@@ -67,19 +73,18 @@ if (isset($_GET['store'])) {
             <?php foreach ($result as $emp): ?>
                 <tr>
                     <td><?= htmlspecialchars($emp['CatID']); ?></td>
-                    <td><?= htmlspecialchars($emp['Name']); ?></td>
+                    <td><?= htmlspecialchars($emp['CatName']); ?></td>
                     <td><?= htmlspecialchars($emp['Coat']); ?></td>
                     <td><?= htmlspecialchars($emp['Gender']); ?></td>
                     <td><?= htmlspecialchars($emp['CatBirthYear']); ?></td>
                     <td><?= htmlspecialchars($emp['AgencyID']); ?></td>
                     <td><?= htmlspecialchars($emp['StoreID']); ?></td>
-                    <td><?= htmlspecialchars($emp['StoreName']); ?></td> <!-- Assuming StoreName is in Store table -->
-                    <td><?= htmlspecialchars($emp['StorePhone']); ?></td> <!-- Assuming StorePhone is in Store table -->
+                    <td><?= htmlspecialchars($emp['StorePhone']); ?></td>
                     <td><?= htmlspecialchars($emp['Street']) . ", " . htmlspecialchars($emp['City']) . ", " . htmlspecialchars($emp['State']) . " " . htmlspecialchars($emp['Zip']); ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
-            <tr><td colspan="10">No cats found.</td></tr>
+            <tr><td colspan="9">No cats found.</td></tr>
         <?php endif; ?>
     </table>
 </body>

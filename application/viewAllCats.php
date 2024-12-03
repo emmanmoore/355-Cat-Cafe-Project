@@ -81,19 +81,17 @@ if (isset($_GET['store'])) {
             <th>Gender</th>
             <th>Birth Year</th>
             <th>Agency ID</th>
-            <th>Store Name</th>
             <th>Store Phone</th>
         </tr>
         <?php foreach ($cats as $cat): ?>
             <?php if ($cat['Gender'] == 'Male'): ?>
                 <tr>
                     <td><?= htmlspecialchars($cat['CatID']); ?></td>
-                    <td><?= htmlspecialchars($cat['Name']); ?></td>
+                    <td><?= htmlspecialchars($cat['CatName']); ?></td>
                     <td><?= htmlspecialchars($cat['Coat']); ?></td>
                     <td><?= htmlspecialchars($cat['Gender']); ?></td>
                     <td><?= htmlspecialchars($cat['CatBirthYear']); ?></td>
                     <td><?= htmlspecialchars($cat['AgencyID']); ?></td>
-                    <td><?= htmlspecialchars($cat['StoreName']); ?></td>
                     <td><?= htmlspecialchars($cat['StorePhone']); ?></td>
                 </tr>
             <?php endif; ?>
@@ -110,19 +108,17 @@ if (isset($_GET['store'])) {
             <th>Gender</th>
             <th>Birth Year</th>
             <th>Agency ID</th>
-            <th>Store Name</th>
             <th>Store Phone</th>
         </tr>
         <?php foreach ($cats as $cat): ?>
             <?php if ($cat['Gender'] == 'Female'): ?>
                 <tr>
                     <td><?= htmlspecialchars($cat['CatID']); ?></td>
-                    <td><?= htmlspecialchars($cat['Name']); ?></td>
+                    <td><?= htmlspecialchars($cat['CatName']); ?></td>
                     <td><?= htmlspecialchars($cat['Coat']); ?></td>
                     <td><?= htmlspecialchars($cat['Gender']); ?></td>
                     <td><?= htmlspecialchars($cat['CatBirthYear']); ?></td>
                     <td><?= htmlspecialchars($cat['AgencyID']); ?></td>
-                    <td><?= htmlspecialchars($cat['StoreName']); ?></td>
                     <td><?= htmlspecialchars($cat['StorePhone']); ?></td>
                 </tr>
             <?php endif; ?>
