@@ -43,6 +43,15 @@ if (isset($_GET['store'])) {
         $stmt2->bindParam(1, $store);
         $stmt2->execute();
         $cats = $stmt2->fetchAll();
+		
+		// Fetch the age range of cats at the store
+		$sql3 = 'SELECT (MAX(CatBirthYear) - MIN(CatBirthYear)) AS Range 
+				 FROM Cat
+				 WHERE StoreID = ?';
+		$stmt3 = $dbc->prepare($sql3);
+		$stmt3->bindParam(1, $store);
+		$stmt3->execute();
+		$range = $stmt3->fetchAll();
 
     } catch (PDOException $e) {
         echo $e->getMessage();
@@ -70,6 +79,7 @@ if (isset($_GET['store'])) {
     <h3>Summary</h3>
     <p>Total Male Cats: <?= htmlspecialchars($maleCount); ?></p>
     <p>Total Female Cats: <?= htmlspecialchars($femaleCount); ?></p>
+	<p>Age Range of Cats: <?= htmlspecialchars($range['Range']); ?> Years</p>
 
     <!-- Display Male Cats -->
     <h3>Male Cats (Youngest to Oldest)</h3>
