@@ -1,4 +1,4 @@
-<!-- This query counts how many times an item has been ordered at a specific store and displays count if ordered more than 3 times -->
+<!-- This query counts how many times an item has been ordered at a specific store and displays count if ordered >= 3 times -->
 <?php
 ini_set('display_errors', 1);
 if (isset($_GET['store'])) {
@@ -6,27 +6,19 @@ if (isset($_GET['store'])) {
     try {
         require('../pdo_connect.php');
         // SQL statement to select menu items ordered more than 3 times for a specific store
-        $sql = 'SELECT mi.ItemName, mi.Price, COUNT(c.ItemID) AS Occurrences
-                FROM Menu_Item mi
-                JOIN Contains c ON mi.ItemID = c.ItemID
-                JOIN Store s ON s.StoreID = :StoreID
-                WHERE s.StoreID = :StoreID
-                GROUP BY mi.ItemID
-                HAVING COUNT(c.ItemID) > 3';
-
-        $stmt = $dbc->prepare($sql);
-
-        // Binds the store ID to the query
-        $stmt->execute([
-            ':StoreID' => $store,
-        ]);
-
-        // Fetch all results
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $sql = 'SELECT ItemName, Price, COUNT(ItemID) AS timesOrdered 
+				FROM CustomerOrder NATURAL JOIN  Contains NATURAL JOIN Menu_Item 
+				WHERE StoreID = ?
+				GROUP BY ItemID
+				HAVING timesOrdered >= 3;';
+		$stmt = $dbc->prepare($sql);
+		$stmt->bindParam(1, $store);
+		$stmt->execute();
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
         exit;
     }
+	$result = $stmt->fetchAll();
 } else { // End isset
     echo "<h2>You have reached this page in error</h2>";
     exit;
@@ -60,7 +52,7 @@ if (isset($_GET['store'])) {
             echo "<tr>";
             echo "<td>" . htmlspecialchars($item['ItemName']) . "</td>";
             echo "<td>" . number_format($item['Price'], 2) . "</td>";
-            echo "<td>" . htmlspecialchars($item['Occurrences']) . "</td>";
+            echo "<td>" . htmlspecialchars($item['timesOrdered']) . "</td>";
             echo "</tr>";
         }
     } else {
