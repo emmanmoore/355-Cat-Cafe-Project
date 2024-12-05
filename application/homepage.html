@@ -8,16 +8,28 @@
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/DrawSVGPlugin.min.js"></script>
+  <style>.wrapper {
+		text-align: center;
+	}
+
+	.button {
+		position: absolute;
+		top: 50%;
+	}
+  </style>
 </head>
 
 <body>
 
   <main>
+	<div class="wrapper">
     <h1>Welcome to Cat Cafe Manager</h1>
     <p>Select your Cafe</p>
+	
     <input type="button" onclick="location.href='cafe1.html';" value="Cafe 1" />
     <input type="button" onclick="location.href='cafe2.html';" value="Cafe 2" />
     <input type="button" onclick="location.href='cafe3.html';" value="Cafe 3" />
+	</div>
   </main>
 
   <div class="container">
