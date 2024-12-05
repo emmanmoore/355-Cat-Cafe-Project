@@ -1,25 +1,27 @@
 <!-- This is a query to view all current orders -->
 <?php
 ini_set('display_errors', 1);
+
+// Check if the store is passed in the URL
 if (isset($_GET['store'])) {
     $store = $_GET["store"];
-    try {
-        require_once('../pdo_connect.php');
-        
-        // SQL query to display the menu for the store
-        $sql = 'SELECT OrderID, DateTimePlaced, C.CustPhone AS Phone, CustFN, CustLN
+	try {
+		require_once('../pdo_connect.php');
+		
+		// SQL query to display the menu for the store
+		$sql = 'SELECT OrderID, DateTimePlaced, C.CustPhone AS Phone, CustFN, CustLN
 				FROM CustomerOrder O JOIN Customer C
 				WHERE C.CustPhone = O.CustPhone AND completed = 0 AND StoreID = ?';
 
-        $stmt = $dbc->prepare($sql);
-        $stmt->bindParam(1, $store);
-        $stmt->execute();
+		$stmt = $dbc->prepare($sql);
+		$stmt->bindParam(1, $store);
+		$stmt->execute();
 		$result = $stmt->fetchAll();
-        
+		
 
-    } catch (PDOException $e) {
-        echo $e->getMessage();
-    }
+	} catch (PDOException $e) {
+		echo $e->getMessage();
+	}
 } else {
     echo "<h2>You have reached this page in error</h2>";
     exit;
@@ -38,6 +40,15 @@ if (isset($_GET['store'])) {
 	</style>	
 </head>
 <body>
+	<h2>Mark Order as Complete</h2>
+    
+    <form method="GET" action="orderComplete.php">
+        <label for="order_id">Enter the OrderID:</label>
+        <input type="number" id="order_id" name="order_id" min="1" placeholder="OrderID" required><br><br>
+
+        <button type="submit">Complete</button>
+    </form>
+	<br>
 	<h2>Active Orders</h2>
 	
 	<table>
