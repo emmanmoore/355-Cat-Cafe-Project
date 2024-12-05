@@ -78,7 +78,7 @@ if (isset($_GET['store'])) {
     <h3>Summary</h3>
     <p>Total Male Cats: <?= htmlspecialchars($maleCount); ?></p>
     <p>Total Female Cats: <?= htmlspecialchars($femaleCount); ?></p>
-	<p>Age Range of Cats: <?= htmlspecialchars($range); ?> Years</p>
+	<p>Age Range of Cats: <?= htmlspecialchars($range['Range']); ?> Years</p>
 
     <!-- Display Male Cats -->
     <h3>Male Cats (Youngest to Oldest)</h3>
