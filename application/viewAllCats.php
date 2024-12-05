@@ -45,8 +45,7 @@ if (isset($_GET['store'])) {
         $cats = $stmt2->fetchAll();
 		
 		// Fetch the age range of cats at the store
-		$sql3 = 'SELECT (MAX(CatBirthYear) - MIN(CatBirthYear)) AS 'Range'
-				 FROM Cat
+		$sql3 = 'SELECT (MAX(CatBirthYear) - MIN(CatBirthYear)) AS "Range" FROM Cat
 				 WHERE StoreID = ?';
 		$stmt3 = $dbc->prepare($sql3);
 		$stmt3->bindParam(1, $store);
