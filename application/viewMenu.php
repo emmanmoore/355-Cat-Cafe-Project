@@ -7,9 +7,9 @@ if (isset($_GET['store'])) {
         require_once('../pdo_connect.php');
         
         // SQL query to display the menu for the store
-        $sql = 'SELECT M.ItemID, ItemName, ProductType, Price, CookTime, PrepTime
+        $sql = 'SELECT M.ItemID AS Item, ItemName, ProductType, Price, CookTime, PrepTime
 				FROM Store S JOIN Has H JOIN Menu_Item M
-				WHERE S.StoreID = H.StoreID AND M.ItemID = H.ItemID AND StoreID = ?
+				WHERE S.StoreID = H.StoreID AND M.ItemID = H.ItemID AND S.StoreID = ?
 				ORDER BY ProductType, ItemName';
 
         $stmt = $dbc->prepare($sql);
@@ -52,7 +52,7 @@ if (isset($_GET['store'])) {
 		</tr>
 	<?php foreach($result as $item) {
 		echo "<tr>";
-		echo "<td>".$item['M.ItemID']."</td>";
+		echo "<td>".$item['Item']."</td>";
 		echo "<td>".$item['ItemName']."</td>";
 		echo "<td>".$item['ProductType']."</td>";
 		echo "<td>".$item['Price']."</td>";
