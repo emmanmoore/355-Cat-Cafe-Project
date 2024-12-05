@@ -43,6 +43,7 @@ if (isset($_GET['store'])) {
 	<h2>Mark Order as Complete</h2>
     
     <form method="GET" action="orderComplete.php">
+		<input type="hidden" name="store" value="<?php echo htmlspecialchars($store); ?>">
         <label for="order_id">Enter the OrderID:</label>
         <input type="number" id="order_id" name="order_id" min="1" placeholder="OrderID" required><br><br>
 
